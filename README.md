@@ -2,72 +2,72 @@
 
 # SG Tunnel · Bridge
 
-**پل هوشمند انتقال محتوا بین پیام‌رسان‌ها**
+**Automated content relay between messaging platforms**
 
 ---
 
-*بدون سرور · بدون هزینه نگهداری · همیشه روشن*
+*No server · No maintenance cost · Always on*
 
 </div>
 
 ---
 
-## چیست؟
+## What is it?
 
-یک سیستم خودکار برای انتقال **لحظه‌ای** محتوا از کانال‌های تلگرام به بله.
-بدون دخالت دستی. بدون قطعی. بدون هزینه ماهانه.
-
----
-
-## چه می‌کند؟
-
-- پیام‌های متنی، عکس، ویدیو، فایل، صدا و انیمیشن را منتقل می‌کند
-- چندین کانال منبع را همزمان پشتیبانی می‌کند
-- از ارسال تکراری جلوگیری می‌کند
-- نظرسنجی، لوکیشن و استیکر را پردازش می‌کند
-- پنل مدیریت آنلاین دارد
+An automated system for **instant** content relay from Telegram channels to Bale.
+No manual intervention. No downtime. No monthly cost.
 
 ---
 
-## پنل مدیریت
+## What it does
 
-| امکان | توضیح |
+- Relays text, photo, video, file, audio, and animation
+- Supports multiple source channels simultaneously
+- Prevents duplicate delivery
+- Handles polls, locations, and stickers
+- Includes an online management panel
+
+---
+
+## Management Panel
+
+| Feature | Description |
 |---|---|
-| 🔑 توکن‌ها | تنظیم ربات‌های مبدأ و مقصد |
-| 📢 کانال‌های منبع | اضافه یا حذف با یک کلیک |
-| 📤 مقصد | تعیین کانال خروجی |
-| 📊 آمار | تعداد پیام‌های منتقل‌شده و خطاها |
-| ▶ اجرای دستی | راه‌اندازی فوری بدون انتظار |
+| 🔑 Tokens | Configure source and destination bots |
+| 📢 Source Channels | Add or remove with one click |
+| 📤 Destination | Set the output channel |
+| 📊 Statistics | Forwarded messages count and error tracking |
+| ▶ Manual Run | Trigger instantly without waiting |
 
 ---
 
-## راه‌اندازی
+## Setup
 
-نیازی به دانش فنی خاصی ندارد.
-راهنمای کامل پس از خرید ارسال می‌شود.
-زمان راه‌اندازی: **کمتر از ۱۰ دقیقه**
+No technical expertise required.
+Full setup guide is provided after purchase.
+Setup time: **under 10 minutes**
 
 ---
 
-## هزینه نگهداری
+## Running Cost
 
-| آیتم | هزینه |
+| Item | Cost |
 |---|---|
-| سرور | **رایگان** |
-| پهنای باند | **رایگان** |
-| نگهداری | **ندارد** |
+| Server | **Free** |
+| Bandwidth | **Free** |
+| Maintenance | **None** |
 
-> سیستم روی زیرساخت ابری درجه یک اجرا می‌شود. هزینه ماهانه صفر است.
+> Runs on top-tier cloud infrastructure. Zero monthly fees.
 
 ---
 
-## خرید و پشتیبانی
+## Purchase & Support
 
 <div align="center">
 
-[![Telegram](https://img.shields.io/badge/خرید_و_پشتیبانی-تماس_با_ادمین-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/nazeranvc)
+[![Telegram](https://img.shields.io/badge/Purchase_%26_Support-Contact_Admin-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/nazeranvc)
 
-*پس از خرید: سورس کامل + راهنمای نصب + پشتیبانی نامحدود*
+*After purchase: full source + setup guide + unlimited support*
 
 </div>
 
