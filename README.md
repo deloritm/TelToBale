@@ -2,21 +2,21 @@
 
 <img src="https://img.shields.io/badge/Cloudflare-Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
 <img src="https://img.shields.io/badge/Telegram-Bot-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" />
-<img src="https://img.shields.io/badge/بله-Bot-23D18B?style=for-the-badge&logoColor=white" />
+<img src="https://img.shields.io/badge/Bale-Bot-23D18B?style=for-the-badge&logoColor=white" />
 <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" />
 
 <br/><br/>
 
-# ⚡ Bridge — تلگرام به بله
+# ⚡ Bridge — Telegram to Bale
 
-**پل خودکار انتقال پیام از کانال‌های تلگرام به کانال بله، روی Cloudflare Workers**
+**Automatically forward messages from Telegram channels to Bale, powered by Cloudflare Workers**
 
-> بدون سرور، بدون هزینه، بدون پیچیدگی — در کمتر از ۲۰ دقیقه راه‌اندازی کن
+> No server. No cost. No complexity — set it up in under 20 minutes.
 
 <br/>
 
 ```
-📢 کانال تلگرام  ──▶  ⚡ Cloudflare Worker  ──▶  📣 کانال بله
+📢 Telegram Channel  ──▶  ⚡ Cloudflare Worker  ──▶  📣 Bale Channel
 ```
 
 <br/>
@@ -25,223 +25,222 @@
 
 ---
 
-## ✨ ویژگی‌ها
+## ✨ Features
 
-- 🆓 **کاملاً رایگان** — روی پلن رایگان Cloudflare Workers اجرا می‌شه
-- ⚡ **بدون سرور** — نیازی به VPS یا هاستینگ نیست
-- 🔄 **خودکار** — هر ۵ دقیقه پیام‌های جدید رو چک و فوروارد می‌کنه
-- 🎛️ **پنل ادمین** — مدیریت توکن‌ها و کانال‌ها از طریق رابط وب
-- 📦 **KV Storage** — ذخیره تنظیمات و آفست پیام‌ها
-- 🔐 **امن** — توکن‌ها رمزگذاری‌شده در KV ذخیره می‌شن
-
----
-
-## 📋 پیش‌نیازها
-
-قبل از شروع، موارد زیر رو آماده کن:
-
-| مورد | توضیح |
-|------|-------|
-| 🤖 ربات تلگرام | ساخته‌شده از طریق `@BotFather` |
-| 🤖 ربات بله | ساخته‌شده از طریق `@BaleBot` |
-| ☁️ حساب Cloudflare | ثبت‌نام رایگان در `cloudflare.com` |
+- 🆓 **Completely free** — runs on Cloudflare Workers' free plan
+- ⚡ **Serverless** — no VPS or hosting required
+- 🔄 **Automatic** — checks and forwards new messages every 5 minutes
+- 🎛️ **Admin panel** — manage tokens and channels via a web interface
+- 📦 **KV Storage** — stores settings and message offsets
+- 🔐 **Secure** — tokens are stored encrypted in KV
 
 ---
 
-## 🚀 راه‌اندازی گام به گام
+## 📋 Prerequisites
 
-### مرحله ۱ — ساخت ربات تلگرام
+Have the following ready before you start:
 
-1. در تلگرام، **`@BotFather`** رو جستجو و باز کن
-2. دستور `/newbot` رو بفرست
-3. اسم و یوزرنیم ربات رو وارد کن (یوزرنیم باید به `_bot` ختم بشه)
-4. توکن دریافتی رو کپی کن:
+| Item | Description |
+|------|-------------|
+| 🤖 Telegram Bot | Created via `@BotFather` |
+| 🤖 Bale Bot | Created via `@BaleBot` |
+| ☁️ Cloudflare Account | Free registration at `cloudflare.com` |
+
+---
+
+## 🚀 Step-by-Step Setup
+
+### Step 1 — Create a Telegram Bot
+
+1. Search for **`@BotFather`** on Telegram and open it
+2. Send the `/newbot` command
+3. Enter a name and username for your bot (username must end with `_bot`)
+4. Copy the token you receive:
 
 ```
 7123456789:AAHxyz-abcdefghijklmnopqrstuvwxyz
 ```
 
-> ⚠️ **توجه:** این توکن رو هیچ‌وقت به اشتراک نذار!
+> ⚠️ **Warning:** Never share this token with anyone!
 
-5. ربات رو در کانال‌های تلگرامی که می‌خوای **ادمین** کن
-
----
-
-### مرحله ۲ — ساخت ربات بله
-
-1. در بله، **`@BaleBot`** رو جستجو کن
-2. دستور `/newbot` رو بفرست و مراحل رو طی کن
-3. توکن دریافتی رو کپی کن
-4. ربات رو در کانال بله مقصد **ادمین** کن
-5. آیدی کانال بله رو پیدا کن (با `-100` شروع می‌شه)
-
-> 💡 برای پیدا کردن آیدی کانال، از ربات‌های ID یاب در بله استفاده کن
+5. Add the bot to your source Telegram channels as an **admin** (or at least as a member so it can read messages)
 
 ---
 
-### مرحله ۳ — ساخت حساب Cloudflare
+### Step 2 — Create a Bale Bot
 
-1. به [cloudflare.com](https://cloudflare.com) برو و ثبت‌نام کن
-2. ایمیلت رو تأیید کن
-3. وارد داشبورد بشو
+1. Search for **`@BaleBot`** on Bale and open it
+2. Send the `/newbot` command and follow the steps
+3. Copy the token you receive
+4. Add the bot to your destination Bale channel as an **admin**
+5. Find your Bale channel ID (it starts with `-100`)
 
-**محدودیت‌های پلن رایگان (بیش از کافی):**
-
-| سرویس | محدودیت رایگان |
-|--------|---------------|
-| Workers | 100,000 درخواست / روز |
-| KV Writes | 1,000 نوشتن / روز |
-| KV Reads | 10,000,000 خواندن / روز |
+> 💡 To find your Bale channel ID, check the invite link or use an ID-finder bot
 
 ---
 
-### مرحله ۴ — ساخت KV Namespace
+### Step 3 — Create a Cloudflare Account
 
-KV جایی‌ه که توکن‌ها، کانال‌ها و آفست پیام‌ها ذخیره می‌شن.
+1. Go to [cloudflare.com](https://cloudflare.com) and sign up
+2. Verify your email address
+3. Log in to the dashboard — no domain or paid plan needed
 
-1. در داشبورد Cloudflare، روی **Workers & Pages** کلیک کن
-2. از زیرمنو، **KV** رو انتخاب کن
-3. روی **Create a namespace** کلیک کن
-4. اسمش رو دقیقاً `KV` بذار (حرف بزرگ)
-5. روی **Add** کلیک کن
+**Free plan limits (more than enough):**
 
----
-
-### مرحله ۵ — ساخت Worker و آپلود کد
-
-1. در داشبورد Cloudflare، روی **Workers & Pages** کلیک کن
-2. روی **Create** کلیک کن
-3. **Create Worker** رو انتخاب کن
-4. یه اسم دلخواه بده (مثلاً: `tel-to-bale`)
-5. روی **Deploy** کلیک کن
-6. روی **Edit Code** کلیک کن
-7. تمام کد پیش‌فرض رو پاک کن و محتوای **`worker.js`** رو کپی‌پیست کن
-8. روی **Deploy** کلیک کن
-
-> ⚠️ مطمئن شو در ابتدای کد `export default {` وجود داره
+| Service | Free Limit |
+|---------|-----------|
+| Workers | 100,000 requests / day |
+| KV Writes | 1,000 writes / day |
+| KV Reads | 10,000,000 reads / day |
 
 ---
 
-### مرحله ۶ — وصل کردن KV به Worker
+### Step 4 — Create a KV Namespace
 
-بدون این مرحله Worker کار نمی‌کنه!
+KV is where tokens, channel lists, and message offsets are stored.
 
-1. در صفحه Worker، روی تب **Settings** کلیک کن
-2. بخش **Bindings** رو پیدا کن
-3. روی **Add** کلیک کن و **KV Namespace** رو انتخاب کن
-4. در فیلد **Variable name** بنویس: `KV` (دقیقاً بزرگ)
-5. KV Namespace که ساختی رو انتخاب کن
-6. روی **Save** کلیک کن
-
-> ℹ️ اگه Variable name اشتباه باشه، Worker پیام `KV binding missing` میده
+1. In the Cloudflare dashboard, click **Workers & Pages**
+2. Select **KV** from the sub-menu
+3. Click **Create a namespace**
+4. Name it exactly `KV` (uppercase)
+5. Click **Add**
 
 ---
 
-### مرحله ۷ — ورود به پنل ادمین و تنظیمات
+### Step 5 — Create a Worker and Upload the Code
 
-1. آدرس Worker ات رو باز کن:
+1. In the Cloudflare dashboard, click **Workers & Pages**
+2. Click **Create**
+3. Select **Create Worker**
+4. Give it a name (e.g. `tel-to-bale`) and click **Deploy**
+5. Click **Edit Code**
+6. Delete all the default code and paste the contents of **`worker.js`**
+7. Click **Deploy**
+
+> ⚠️ Make sure the code starts with `export default {` — this confirms it was copied correctly
+
+---
+
+### Step 6 — Bind KV to the Worker
+
+Without this step the Worker won't function!
+
+1. On the Worker page, click the **Settings** tab
+2. Find the **Bindings** section
+3. Click **Add** and select **KV Namespace**
+4. In the **Variable name** field, type: `KV` (exactly, uppercase)
+5. Select the KV Namespace you just created
+6. Click **Save**
+
+> ℹ️ If the variable name is wrong, the Worker will return a `KV binding missing` error
+
+---
+
+### Step 7 — Log In to the Admin Panel
+
+1. Open your Worker URL:
 
 ```
 https://your-worker-name.workers.dev/admin
 ```
 
-2. رمز پیش‌فرض `admin1234` رو وارد کن
-3. در بخش **توکن‌ها**، توکن ربات تلگرام و بله رو وارد و ذخیره کن
-4. در بخش **کانال مقصد**، آیدی کانال بله رو وارد کن (مثلاً `-1001234567890`)
-5. در بخش **کانال‌های منبع**، آیدی کانال‌های تلگرامی رو وارد کن (هر کانال یه خط)
-6. روی **ذخیره کانال‌ها** کلیک کن
+2. Enter the default password `admin1234` and log in
+3. Under **Tokens**, enter your Telegram and Bale bot tokens and save
+4. Under **Destination Channel**, enter your Bale channel ID (e.g. `-1001234567890`)
+5. Under **Source Channels**, enter your Telegram channel IDs — one per line
+6. Click **Save Channels**
 
-> 🔐 **مهم:** رمز پیش‌فرض `admin1234` رو حتماً در کد عوض کن! خط اول `worker.js`:
+> 🔐 **Important:** Change the default password `admin1234` in the code! First line of `worker.js`:
 
 ```javascript
-const ADMIN_PASSWORD = "رمز_جدید_خودت";
+const ADMIN_PASSWORD = "your-new-password";
 ```
 
 ---
 
-### مرحله ۸ — تست اولیه
+### Step 8 — Initial Test
 
-1. در پنل ادمین، دکمه **▶ اجرا** رو بزن
-2. اگه همه چیز درست باشه، داشبورد آمار نشون داده می‌شه
-3. یه پیام آزمایشی در کانال تلگرام منبع ارسال کن
-4. دوباره دکمه **اجرا** رو بزن — پیام باید در کانال بله ظاهر بشه
+1. In the admin panel, press the **▶ Run** button
+2. If everything is correct, the dashboard will show stats
+3. Send a test message in your source Telegram channel
+4. Press **Run** again — the message should appear in your Bale channel
 
-✅ اگه پیام رسید، تبریک! Bridge داره کار می‌کنه.
+✅ If the message arrived — congratulations! Bridge is working.
 
-**اگه خطا داری، چک کن:**
-- ربات تلگرام در کانال منبع هست؟
-- ربات بله ادمین کانال مقصده؟
-- آیدی‌ها درست وارد شدن؟
+**If you get an error, check:**
+- Is the Telegram bot a member of the source channel?
+- Is the Bale bot an admin of the destination channel?
+- Are the channel IDs entered correctly?
 
 ---
 
-### مرحله ۹ — تنظیم Cron (اجرای خودکار)
+### Step 9 — Set Up a Cron Job (Auto-run)
 
-#### روش ۱: cron-job.org (رایگان)
+#### Option 1: cron-job.org (Free)
 
-Cron هر ۵ دقیقه به Worker درخواست می‌زنه تا پیام‌های جدید رو چک کنه.
+The cron job hits your Worker every 5 minutes to check for new messages.
 
-1. به [cron-job.org](https://cron-job.org) برو و ثبت‌نام کن
-2. روی **Create cronjob** کلیک کن
-3. آدرس Worker ات رو وارد کن:
+1. Go to [cron-job.org](https://cron-job.org) and sign up
+2. Click **Create cronjob**
+3. Enter your Worker URL:
 
 ```
 https://your-worker-name.workers.dev/cron
 ```
 
-4. Schedule رو روی **Every 5 minutes** بذار
-5. ذخیره کن و Cron رو فعال کن
+4. Set the schedule to **Every 5 minutes**
+5. Save and enable the cron job
 
-> 📊 این ۲۸۸ درخواست در روزه — فقط ۰.۳٪ از سقف رایگان Cloudflare
+> 📊 That's 288 requests per day — only 0.3% of Cloudflare's free quota
 
-#### روش ۲: Cloudflare Cron Triggers ⭐ (پیشنهادی)
+#### Option 2: Cloudflare Cron Triggers ⭐ (Recommended)
 
-بدون نیاز به سرویس خارجی، مستقیم از Cloudflare:
+No external service needed — triggered directly by Cloudflare:
 
-1. در داشبورد Worker، روی تب **Settings** کلیک کن
-2. بخش **Cron Triggers** رو پیدا کن
-3. روی **Add Cron Trigger** کلیک کن
-4. عبارت زیر رو وارد کن:
+1. In the Worker dashboard, click the **Settings** tab
+2. Find the **Cron Triggers** section
+3. Click **Add Cron Trigger**
+4. Enter the following expression:
 
 ```
 */5 * * * *
 ```
 
-5. روی **Add Trigger** کلیک کن
+5. Click **Add Trigger**
 
-> ⭐ این روش پایدارتره چون مستقیماً Worker رو صدا می‌زنه بدون HTTP
-
----
-
-## ✅ چک‌لیست نهایی
-
-قبل از راه‌اندازی کامل، همه موارد رو تیک بزن:
-
-- [ ] ربات تلگرام ساخته شده و توکنش رو دارم
-- [ ] ربات تلگرام در کانال‌های منبع ادمین یا عضو هست
-- [ ] ربات بله ساخته شده و توکنش رو دارم
-- [ ] ربات بله ادمین کانال مقصد هست
-- [ ] آیدی کانال بله رو دارم (با `-100` شروع می‌شه)
-- [ ] Cloudflare Worker ساخته و کد آپلود شده
-- [ ] KV Namespace ساخته و به Worker وصل شده (Variable: `KV`)
-- [ ] توکن‌ها و کانال‌ها در پنل ادمین وارد شدن
-- [ ] تست اولیه موفق بود
-- [ ] Cron تنظیم شده (cron-job.org یا Cloudflare Triggers)
-- [ ] رمز پیش‌فرض `admin1234` تغییر کرده
+> ⭐ This method is more reliable since it invokes the Worker directly without HTTP
 
 ---
 
-## 🗂️ ساختار پروژه
+## ✅ Final Checklist
+
+Check everything off before you go live:
+
+- [ ] Telegram bot created and token saved
+- [ ] Telegram bot is a member or admin of source channels
+- [ ] Bale bot created and token saved
+- [ ] Bale bot is an admin of the destination channel
+- [ ] Bale channel ID saved (starts with `-100`)
+- [ ] Cloudflare Worker created and code uploaded
+- [ ] KV Namespace created and bound to Worker (Variable: `KV`)
+- [ ] Tokens and channels entered in the admin panel
+- [ ] Initial test passed successfully
+- [ ] Cron job configured (cron-job.org or Cloudflare Triggers)
+- [ ] Default password `admin1234` changed
+
+---
+
+## 🗂️ Project Structure
 
 ```
 bridge/
-├── worker.js       # کد اصلی Cloudflare Worker
-└── README.md       # همین فایل
+├── worker.js       # Main Cloudflare Worker code
+└── README.md       # This file
 ```
 
 ---
 
-## 🛠️ معماری
+## 🛠️ Architecture
 
 ```
 ┌─────────────────┐     poll every 5min     ┌──────────────────────┐
@@ -262,9 +261,9 @@ bridge/
 
 ---
 
-## 📄 لایسنس
+## 📄 License
 
-MIT License — آزاد برای استفاده، تغییر و توزیع
+MIT License — free to use, modify, and distribute
 
 ---
 
