@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>راهنمای راه‌اندازی Bridge — تلگرام به بله</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060810;
+  --surf: #0c0f1a;
+  --surf2: #111422;
+  --border: #1c2240;
+  --border2: #232b4a;
+  --accent: #4f8ef7;
+  --accent2: #2d67e0;
+  --accent-glow: rgba(79,142,247,0.18);
+  --green: #23d18b;
+  --green-bg: rgba(35,209,139,0.08);
+  --orange: #f5a623;
+  --orange-bg: rgba(245,166,35,0.08);
+  --red: #e05c5c;
+  --text: #d0d8ec;
+  --muted: #4e5a7a;
+  --muted2: #6b7899;
+  --r: 0.7rem;
+  --r2: 1rem;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.75;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(79,142,247,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -200px; left: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(35,209,139,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HEADER */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,8,16,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  animation: slideDown 0.4s ease both;
+}
+.logo {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-weight: 800; font-size: 1rem; color: var(--accent);
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+.badge {
+  font-size: 0.68rem; font-weight: 600;
+  padding: 0.2rem 0.6rem; border-radius: 2rem;
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid rgba(35,209,139,0.2);
+}
+
+/* HERO */
+.hero {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 5rem 1.5rem 4rem;
+  animation: fadeUp 0.5s ease both 0.1s;
+}
+.hero-tag {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 0.3rem 0.9rem; border-radius: 2rem;
+  background: rgba(79,142,247,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(79,142,247,0.25);
+  margin-bottom: 1.4rem;
+  letter-spacing: 0.06em;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 800; color: #fff;
+  line-height: 1.25; margin-bottom: 1rem;
+}
+.hero h1 span { color: var(--accent); }
+.hero p { font-size: 1rem; color: var(--muted2); max-width: 560px; margin: 0 auto 2.5rem; }
+
+.flow-diagram {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.7rem; flex-wrap: wrap; margin: 0 auto;
+}
+.flow-box {
+  background: var(--surf2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  padding: 0.65rem 1.2rem;
+  font-size: 0.82rem; font-weight: 600;
+  display: flex; align-items: center; gap: 0.4rem;
+  white-space: nowrap;
+}
+.flow-arrow { color: var(--muted); font-size: 1.1rem; }
+.flow-box.tg { border-color: rgba(40,168,234,0.4); color: #29a8ea; }
+.flow-box.worker { border-color: rgba(245,166,35,0.4); color: var(--orange); }
+.flow-box.bale { border-color: rgba(35,209,139,0.4); color: var(--green); }
+
+/* CONTAINER */
+.container {
+  position: relative; z-index: 1;
+  max-width: 820px; margin: 0 auto;
+  padding: 0 1.2rem 4rem;
+}
+
+/* STEPS */
+.steps { display: flex; flex-direction: column; gap: 1.2rem; }
+
+.step {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.step:hover { border-color: var(--border2); }
+
+/* staggered fade-in via CSS animation-delay */
+.step:nth-child(1)  { animation: fadeUp 0.4s ease both 0.05s; }
+.step:nth-child(2)  { animation: fadeUp 0.4s ease both 0.10s; }
+.step:nth-child(3)  { animation: fadeUp 0.4s ease both 0.15s; }
+.step:nth-child(4)  { animation: fadeUp 0.4s ease both 0.20s; }
+.step:nth-child(5)  { animation: fadeUp 0.4s ease both 0.25s; }
+.step:nth-child(6)  { animation: fadeUp 0.4s ease both 0.30s; }
+.step:nth-child(7)  { animation: fadeUp 0.4s ease both 0.35s; }
+.step:nth-child(8)  { animation: fadeUp 0.4s ease both 0.40s; }
+.step:nth-child(9)  { animation: fadeUp 0.4s ease both 0.45s; }
+.step:nth-child(10) { animation: fadeUp 0.4s ease both 0.50s; }
+
+.step-header {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1.2rem 1.4rem;
+  cursor: pointer; user-select: none;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 800; color: #fff;
+  box-shadow: 0 4px 12px rgba(79,142,247,0.3);
+  margin-top: 2px;
+}
+.step-num.green { background: linear-gradient(135deg, #1aab6d, var(--green)); box-shadow: 0 4px 12px rgba(35,209,139,0.3); }
+.step-num.orange { background: linear-gradient(135deg, #c47a0a, var(--orange)); box-shadow: 0 4px 12px rgba(245,166,35,0.3); }
+
+.step-title-wrap { flex: 1; }
+.step-title { font-size: 0.97rem; font-weight: 700; color: #e8edf8; margin-bottom: 0.15rem; }
+.step-sub { font-size: 0.74rem; color: var(--muted2); }
+
+.step-toggle {
+  flex-shrink: 0;
+  color: var(--muted); font-size: 1rem;
+  margin-top: 8px;
+  transition: transform 0.3s;
+  display: inline-block;
+}
+.step.open .step-toggle { transform: rotate(180deg); }
+
+.step-body {
+  display: none;
+  padding: 0 1.4rem 1.4rem;
+  border-top: 1px solid var(--border);
+}
+.step.open .step-body { display: block; }
+
+/* CONTENT ELEMENTS */
+.note {
+  display: flex; gap: 0.7rem;
+  background: var(--accent-glow);
+  border: 1px solid rgba(79,142,247,0.2);
+  border-radius: var(--r);
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem; color: var(--muted2);
+  margin: 0.9rem 0;
+  line-height: 1.6;
+}
+.note.warn { background: var(--orange-bg); border-color: rgba(245,166,35,0.2); }
+.note.ok   { background: var(--green-bg);  border-color: rgba(35,209,139,0.2); }
+.note-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+
+ol.guide, ul.guide {
+  padding-right: 1.4rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  font-size: 0.87rem; color: var(--muted2);
+  margin: 0.8rem 0;
+}
+ol.guide li strong, ul.guide li strong { color: var(--text); }
+
+code {
+  font-family: 'Courier New', monospace;
+  background: #0a0d17;
+  border: 1px solid var(--border2);
+  color: var(--accent);
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.35rem;
+  font-size: 0.82em;
+}
+
+.code-block {
+  background: #070a14;
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 1rem 1.1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #8ab4f8;
+  margin: 0.8rem 0;
+  overflow-x: auto;
+  position: relative;
+  line-height: 1.9;
+  white-space: pre;
+}
+.code-block .comment { color: var(--muted); }
+.code-block .str { color: var(--green); }
+.code-block .key { color: var(--orange); }
+
+.copy-btn {
+  position: absolute; top: 0.6rem; left: 0.6rem;
+  background: var(--border2); border: none; color: var(--muted2);
+  padding: 0.2rem 0.55rem; border-radius: 0.35rem;
+  font-size: 0.7rem; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: 'Vazirmatn', sans-serif;
+}
+.copy-btn:hover { background: var(--accent2); color: #fff; }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.8rem 0; }
+.pill {
+  font-size: 0.72rem; font-weight: 600;
+  padding: 0.25rem 0.7rem; border-radius: 2rem;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+}
+.pill-blue   { background: rgba(79,142,247,0.1); color: var(--accent); border: 1px solid rgba(79,142,247,0.2); }
+.pill-green  { background: var(--green-bg); color: var(--green); border: 1px solid rgba(35,209,139,0.2); }
+.pill-orange { background: var(--orange-bg); color: var(--orange); border: 1px solid rgba(245,166,35,0.2); }
+
+.section-label {
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+  padding-top: 2rem;
+  display: block;
+}
+
+.summary {
+  background: linear-gradient(135deg, rgba(79,142,247,0.06), rgba(35,209,139,0.04));
+  border: 1px solid rgba(79,142,247,0.2);
+  border-radius: var(--r2);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  text-align: center;
+  animation: fadeUp 0.4s ease both 0.6s;
+}
+.summary h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+.summary p { font-size: 0.83rem; color: var(--muted2); }
+
+.check-list { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.8rem 0; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.85rem; color: var(--muted2);
+}
+.ck {
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  background: var(--green-bg);
+  border: 1px solid rgba(35,209,139,0.3);
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; color: var(--green);
+  margin-top: 3px;
+}
+
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.78rem; color: var(--muted);
+}
+footer span { color: var(--red); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  header { padding: 0.75rem 1rem; }
+  .hero { padding: 3rem 1rem 2.5rem; }
+  .step-header { padding: 1rem; }
+  .step-body { padding: 0 1rem 1rem; }
+  .flow-box { padding: 0.5rem 0.8rem; font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    Bridge راهنما
+  </div>
+  <div class="badge">✦ گام به گام</div>
+</header>
+
+<div class="hero">
+  <div class="hero-tag">▸ راهنمای کامل نصب و راه‌اندازی</div>
+  <h1>پل <span>تلگرام</span> به بله<br>روی Cloudflare Workers</h1>
+  <p>با این راهنما، حتی اگر هیچ تجربه‌ای نداری، در کمتر از ۲۰ دقیقه ربات‌ات رو راه می‌اندازی.</p>
+  <div class="flow-diagram">
+    <div class="flow-box tg">📢 کانال تلگرام</div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-box worker">⚡ Worker</div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-box bale">📣 کانال بله</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <span class="section-label">مراحل راه‌اندازی</span>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <div class="step open" id="s1">
+      <div class="step-header" onclick="toggle('s1')">
+        <div class="step-num">۱</div>
+        <div class="step-title-wrap">
+          <div class="step-title">ساخت ربات تلگرام و گرفتن توکن</div>
+          <div class="step-sub">از طریق BotFather — رایگان و سریع</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <div class="note">
+          <div class="note-icon">ℹ️</div>
+          <div>ربات تلگرام پیام‌های کانال‌های منبع رو دریافت می‌کنه. باید عضو یا ادمین اون کانال‌ها باشه.</div>
+        </div>
+        <ol class="guide">
+          <li>در تلگرام، <strong>@BotFather</strong> رو جستجو کن و باز کن.</li>
+          <li>دستور <code>/newbot</code> رو بفرست.</li>
+          <li>یه <strong>اسم</strong> برای ربات بده (مثلاً: Bridge Bot).</li>
+          <li>یه <strong>یوزرنیم</strong> بده که به <code>_bot</code> ختم بشه (مثلاً: <code>mybridge_bot</code>).</li>
+          <li>BotFather یه پیام با <strong>توکن</strong> بهت میده که شبیه اینه:</li>
+        </ol>
+        <div class="code-block"><span class="str">7123456789:AAHxyz-abcdefghijklmnopqrstuvwxyz</span></div>
+        <div class="note warn">
+          <div class="note-icon">⚠️</div>
+          <div>این توکن رو هیچ‌وقت با کسی به اشتراک نذار. مثل رمز ربانته.</div>
+        </div>
+        <ol class="guide" start="6">
+          <li>ربات رو به کانال‌های تلگرامی که می‌خوای <strong>ادمین</strong> کن (یا حداقل عضوش کن تا پیام‌ها رو ببینه).</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="s2">
+      <div class="step-header" onclick="toggle('s2')">
+        <div class="step-num">۲</div>
+        <div class="step-title-wrap">
+          <div class="step-title">ساخت ربات بله و گرفتن توکن</div>
+          <div class="step-sub">از طریق BaleBot — مشابه تلگرام</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <div class="note">
+          <div class="note-icon">ℹ️</div>
+          <div>ربات بله پیام‌ها رو در کانال مقصد منتشر می‌کنه. باید ادمین اون کانال باشه.</div>
+        </div>
+        <ol class="guide">
+          <li>در بله، <strong>@BaleBot</strong> رو جستجو کن.</li>
+          <li>دستور <code>/newbot</code> رو بفرست و مراحل ساخت رو طی کن.</li>
+          <li>توکن دریافتی رو کپی کن — فرمتش مثل تلگرامه.</li>
+          <li>ربات رو در کانال بله‌ات <strong>ادمین</strong> کن تا بتونه پست بفرسته.</li>
+          <li>آیدی کانال بله‌ات رو پیدا کن (معمولاً با <code>-100</code> شروع می‌شه).</li>
+        </ol>
+        <div class="note ok">
+          <div class="note-icon">💡</div>
+          <div>برای پیدا کردن آیدی کانال بله، لینک دعوت کانال رو بررسی کن یا از ربات‌های مخصوص ID یاب استفاده کن.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="s3">
+      <div class="step-header" onclick="toggle('s3')">
+        <div class="step-num green">۳</div>
+        <div class="step-title-wrap">
+          <div class="step-title">ساخت حساب Cloudflare</div>
+          <div class="step-sub">رایگانه — نیاز به کارت اعتباری نیست</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <ol class="guide">
+          <li>به <strong>cloudflare.com</strong> برو و Sign Up کن.</li>
+          <li>با ایمیل ثبت‌نام کن و آدرستو تأیید کن.</li>
+          <li>وارد داشبورد بشو — نیازی به دامنه یا پلن پولی نداری.</li>
+        </ol>
+        <div class="pill-row">
+          <span class="pill pill-green">✓ پلن رایگان کافیه</span>
+          <span class="pill pill-blue">100K درخواست / روز</span>
+          <span class="pill pill-orange">KV: 1K write / روز</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" id="s4">
+      <div class="step-header" onclick="toggle('s4')">
+        <div class="step-num green">۴</div>
+        <div class="step-title-wrap">
+          <div class="step-title">ساخت KV Namespace</div>
+          <div class="step-sub">فضای ذخیره‌سازی برای تنظیمات و آفست</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <div class="note">
+          <div class="note-icon">ℹ️</div>
+          <div>KV جایی‌ه که Worker توکن‌ها، لیست کانال‌ها و آفست پیام‌ها رو ذخیره می‌کنه.</div>
+        </div>
+        <ol class="guide">
+          <li>در داشبورد Cloudflare، از منوی چپ روی <strong>Workers &amp; Pages</strong> کلیک کن.</li>
+          <li>از زیرمنو، <strong>KV</strong> رو انتخاب کن.</li>
+          <li>روی <strong>Create a namespace</strong> کلیک کن.</li>
+          <li>اسمش رو دقیقاً <code>KV</code> بذار (بزرگ).</li>
+          <li>روی <strong>Add</strong> کلیک کن.</li>
+        </ol>
+        <div class="note ok">
+          <div class="note-icon">✅</div>
+          <div>KV ساخته شد. بعداً باید این Namespace رو به Worker وصل کنی.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step" id="s5">
+      <div class="step-header" onclick="toggle('s5')">
+        <div class="step-num orange">۵</div>
+        <div class="step-title-wrap">
+          <div class="step-title">ساخت Worker و آپلود کد</div>
+          <div class="step-sub">قلب پروژه — فایل worker.js رو اینجا آپلود می‌کنی</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <ol class="guide">
+          <li>در داشبورد Cloudflare، روی <strong>Workers &amp; Pages</strong> کلیک کن.</li>
+          <li>روی دکمه <strong>Create</strong> کلیک کن.</li>
+          <li>گزینه <strong>Create Worker</strong> رو انتخاب کن.</li>
+          <li>یه اسم دلخواه بده (مثلاً: <code>tel-to-bale</code>) و روی <strong>Deploy</strong> کلیک کن.</li>
+          <li>بعد از ساخت، روی <strong>Edit Code</strong> کلیک کن.</li>
+          <li>تمام کد پیش‌فرض رو پاک کن و کد <strong>worker.js</strong> رو کپی‌پیست کن.</li>
+          <li>روی <strong>Deploy</strong> کلیک کن.</li>
+        </ol>
+        <div class="note warn">
+          <div class="note-icon">⚠️</div>
+          <div>مطمئن شو که در ابتدای کد <code>export default {</code> وجود داره — این نشون می‌ده Worker رو درست کپی کردی.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step" id="s6">
+      <div class="step-header" onclick="toggle('s6')">
+        <div class="step-num orange">۶</div>
+        <div class="step-title-wrap">
+          <div class="step-title">وصل کردن KV به Worker</div>
+          <div class="step-sub">بدون این مرحله Worker کار نمی‌کنه</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <ol class="guide">
+          <li>در صفحه Worker، روی تب <strong>Settings</strong> کلیک کن.</li>
+          <li>بخش <strong>Bindings</strong> رو پیدا کن.</li>
+          <li>روی <strong>Add</strong> کلیک کن و <strong>KV Namespace</strong> رو انتخاب کن.</li>
+          <li>در فیلد <strong>Variable name</strong> بنویس: <code>KV</code> (دقیقاً بزرگ)</li>
+          <li>در فیلد <strong>KV Namespace</strong> همون Namespace که ساختی رو انتخاب کن.</li>
+          <li>روی <strong>Save</strong> کلیک کن.</li>
+        </ol>
+        <div class="note">
+          <div class="note-icon">ℹ️</div>
+          <div>اگه Variable name اشتباه باشه، Worker پیام <code>KV binding missing</code> میده.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step" id="s7">
+      <div class="step-header" onclick="toggle('s7')">
+        <div class="step-num">۷</div>
+        <div class="step-title-wrap">
+          <div class="step-title">ورود به پنل ادمین و تنظیمات</div>
+          <div class="step-sub">توکن‌ها و کانال‌ها رو اینجا وارد می‌کنی</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <ol class="guide">
+          <li>آدرس Worker ات رو باز کن:</li>
+        </ol>
+        <div class="code-block" id="url-block"><button class="copy-btn" onclick="copyBlock('url-block')">کپی</button>https://<span class="key">your-worker-name</span>.workers.dev/admin</div>
+        <ol class="guide" start="2">
+          <li>رمز پیش‌فرض <code>admin1234</code> رو وارد کن و وارد شو.</li>
+          <li>در بخش <strong>توکن‌ها</strong>، توکن ربات تلگرام و بله رو وارد و ذخیره کن.</li>
+          <li>در بخش <strong>کانال مقصد</strong>، آیدی کانال بله رو وارد کن (مثلاً <code>-1001234567890</code>).</li>
+          <li>در بخش <strong>کانال‌های منبع</strong>، آیدی کانال‌های تلگرامی رو وارد کن — هر کانال یه خط.</li>
+          <li>روی <strong>ذخیره کانال‌ها</strong> کلیک کن.</li>
+        </ol>
+        <div class="note warn">
+          <div class="note-icon">🔐</div>
+          <div>رمز پیش‌فرض <code>admin1234</code> رو حتماً در کد عوض کن! خط اول worker.js:</div>
+        </div>
+        <div class="code-block" id="pw-block"><button class="copy-btn" onclick="copyBlock('pw-block')">کپی</button><span class="key">const</span> ADMIN_PASSWORD = <span class="str">"رمز_جدید_خودت"</span>;</div>
+      </div>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="step" id="s8">
+      <div class="step-header" onclick="toggle('s8')">
+        <div class="step-num green">۸</div>
+        <div class="step-title-wrap">
+          <div class="step-title">تست اولیه</div>
+          <div class="step-sub">ببین همه چیز درسته یا نه</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <ol class="guide">
+          <li>در پنل ادمین، دکمه <strong>▶ اجرا</strong> رو بزن.</li>
+          <li>اگه همه چیز درست باشه، داشبورد آمار رو نشون میده.</li>
+          <li>یه پیام آزمایشی در کانال تلگرام منبع ارسال کن.</li>
+          <li>دوباره دکمه <strong>اجرا</strong> رو بزن — پیام باید در کانال بله ظاهر بشه.</li>
+        </ol>
+        <div class="note ok">
+          <div class="note-icon">✅</div>
+          <div>اگه پیام رسید، تبریک! Bridge داره کار می‌کنه. حالا نوبت تنظیم Cron است.</div>
+        </div>
+        <div class="note warn">
+          <div class="note-icon">🔍</div>
+          <div>اگه خطا داری، چک کن: ربات تلگرام در کانال منبع هست؟ ربات بله ادمین کانال مقصده؟ آیدی‌ها درستن؟</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 -->
+    <div class="step" id="s9">
+      <div class="step-header" onclick="toggle('s9')">
+        <div class="step-num green">۹</div>
+        <div class="step-title-wrap">
+          <div class="step-title">تنظیم Cron — اجرای خودکار هر ۵ دقیقه</div>
+          <div class="step-sub">از cron-job.org استفاده می‌کنیم — رایگانه</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <div class="note">
+          <div class="note-icon">⏱️</div>
+          <div>Cron هر ۵ دقیقه به Worker درخواست میزنه تا پیام‌های جدید رو چک و فوروارد کنه.</div>
+        </div>
+        <ol class="guide">
+          <li>به <strong>cron-job.org</strong> برو و ثبت‌نام کن (رایگانه).</li>
+          <li>روی <strong>Create cronjob</strong> کلیک کن.</li>
+          <li>آدرس Worker ات رو وارد کن:</li>
+        </ol>
+        <div class="code-block" id="cron-block"><button class="copy-btn" onclick="copyBlock('cron-block')">کپی</button>https://<span class="key">your-worker-name</span>.workers.dev/cron</div>
+        <ol class="guide" start="4">
+          <li>Schedule رو روی <strong>Every 5 minutes</strong> بذار.</li>
+          <li>ذخیره کن و Cron رو فعال کن.</li>
+        </ol>
+        <div class="note ok">
+          <div class="note-icon">📊</div>
+          <div>۲۸۸ درخواست در روز — فقط ۰.۳٪ از سقف رایگان Cloudflare. هیچ نگرانی‌ای نیست.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 10 -->
+    <div class="step" id="s10">
+      <div class="step-header" onclick="toggle('s10')">
+        <div class="step-num orange">۱۰</div>
+        <div class="step-title-wrap">
+          <div class="step-title">گزینه بهتر: Cloudflare Cron Triggers</div>
+          <div class="step-sub">بدون نیاز به سرویس خارجی — مستقیم از Cloudflare</div>
+        </div>
+        <span class="step-toggle">▾</span>
+      </div>
+      <div class="step-body">
+        <div class="note ok">
+          <div class="note-icon">⭐</div>
+          <div>Cloudflare Cron Triggers مستقیماً Worker رو صدا می‌زنه بدون HTTP — پایدارتر و بدون مشکل احراز هویت.</div>
+        </div>
+        <ol class="guide">
+          <li>در داشبورد Worker، روی تب <strong>Settings</strong> کلیک کن.</li>
+          <li>بخش <strong>Cron Triggers</strong> رو پیدا کن.</li>
+          <li>روی <strong>Add Cron Trigger</strong> کلیک کن.</li>
+          <li>عبارت <code>*/5 * * * *</code> رو وارد کن (هر ۵ دقیقه).</li>
+          <li>روی <strong>Add Trigger</strong> کلیک کن.</li>
+        </ol>
+        <div class="code-block"><span class="comment"># هر ۵ دقیقه</span>
+*/5 * * * *
+
+<span class="comment"># هر دقیقه</span>
+* * * * *</div>
+      </div>
+    </div>
+
+  </div><!-- end steps -->
+
+  <div class="summary">
+    <h3>🎉 تمام! Bridge آماده‌ست</h3>
+    <p>از این به بعد پیام‌های کانال‌های تلگرامی به‌صورت خودکار در کانال بله‌ات منتشر می‌شن.</p>
+  </div>
+
+  <span class="section-label">چک‌لیست نهایی</span>
+  <div class="check-list">
+    <div class="check-item"><div class="ck">✓</div><div>ربات تلگرام ساخته شده و توکنش رو دارم</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>ربات تلگرام در کانال‌های منبع ادمین یا عضو هست</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>ربات بله ساخته شده و توکنش رو دارم</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>ربات بله ادمین کانال مقصد هست</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>آیدی کانال بله رو دارم (با ‎-100 شروع می‌شه)</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>Cloudflare Worker ساخته و کد آپلود شده</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>KV Namespace ساخته و به Worker وصل شده (Variable: KV)</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>توکن‌ها و کانال‌ها در پنل ادمین وارد شدن</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>تست اولیه موفق بود</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>Cron تنظیم شده (cron-job.org یا Cloudflare Triggers)</div></div>
+    <div class="check-item"><div class="ck">✓</div><div>رمز پیش‌فرض admin1234 تغییر کرده</div></div>
+  </div>
+
+</div><!-- end container -->
+
+<footer>
+  VC • Built with love for Iran <span>❤️</span>
+</footer>
+
+<script>
+function toggle(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function copyBlock(id) {
+  const block = document.getElementById(id);
+  const btn = block.querySelector('.copy-btn');
+  // Get text content, strip button text
+  const clone = block.cloneNode(true);
+  clone.querySelector('.copy-btn')?.remove();
+  const text = clone.innerText.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ کپی شد';
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#000';
+    setTimeout(() => {
+      btn.textContent = 'کپی';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
